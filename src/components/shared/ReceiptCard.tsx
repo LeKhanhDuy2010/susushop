@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 
 interface ReceiptCardProps {
   data: any;
@@ -13,23 +13,25 @@ export default function ReceiptCard({ data, onClose }: ReceiptCardProps) {
     if (receiptRef.current) {
       const btn = document.activeElement as HTMLButtonElement;
       if (btn) btn.disabled = true;
-      
-      html2canvas(receiptRef.current, {
-        scale: 2,
-        useCORS: true,
+
+      htmlToImage.toPng(receiptRef.current, {
+        quality: 1.0,
+        pixelRatio: 2,
         backgroundColor: '#ffffff',
-        logging: false
-      }).then((canvas) => {
+      })
+      .then((dataUrl) => {
         const link = document.createElement('a');
         link.download = `susu-shop-receipt-${new Date().getTime()}.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.href = dataUrl;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.error('Lỗi khi lưu ảnh:', err);
         alert('Không thể lưu ảnh. Vui lòng thử chụp màn hình thủ công.');
-      }).finally(() => {
+      })
+      .finally(() => {
         if (btn) btn.disabled = false;
       });
     }
