@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bento-card p-8 flex flex-col md:flex-row justify-between items-center gap-6 mt-12 bg-white/40 backdrop-blur-sm">
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 bg-accent-pink rounded-full flex items-center justify-center text-white text-xs font-black">S</div>
-        <span className="text-sm font-black text-primary-text uppercase tracking-widest">SuSu Shop © 2024</span>
+        <span className="text-sm font-black text-primary-text uppercase tracking-widest">SuSu Shop © 2026</span>
       </div>
       
       <div className="flex gap-4">

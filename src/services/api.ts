@@ -1,6 +1,6 @@
 import { Booking, Equipment, Rental } from '../types';
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz6XcRLy9BDEzMeG1GIJarliabUarZDDrTafDpVleGpVK7EUeoh6RuS2OkhLwl5iwuy6Q/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw-OH8UacdEocdHIe4AN4Dr8cZZyfzoQhXUPNCXc-c_fVvYvofAY2y6XrO_TuCrRq345A/exec";
 
 async function fetchGAS(params: Record<string, string>): Promise<any> {
   const query = new URLSearchParams(params).toString();
