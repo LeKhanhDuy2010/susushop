@@ -135,6 +135,12 @@ function SearchBar() {
                         <span className="text-xs font-bold text-rose-400">{r.startDate}</span>
                       </div>
                       <h4 className="font-black text-primary-text">{r.equipmentName}</h4>
+                      <div className="mt-2 flex justify-between items-center">
+                        <span className="text-[10px] font-bold text-rose-400 italic">Gói: {r.package}</span>
+                        {r.totalPrice && (
+                          <span className="text-xs font-black text-accent-pink">{Number(r.totalPrice).toLocaleString()}đ</span>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

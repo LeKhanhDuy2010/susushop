@@ -46,9 +46,15 @@ export default function ReceiptCard({ data, onClose }: ReceiptCardProps) {
           <div className="flex justify-between text-sm">
             <span>Thời gian</span>
             <span className="font-medium">
-              {data.date ? `${data.date} | ${data.time}` : `${data.startDate} → ${data.endDate}`}
+              {data.date ? `${data.date} ${data.time ? `| ${data.time}` : ''}` : `${data.startDate} → ${data.endDate}`}
             </span>
           </div>
+          {data.totalPrice && (
+            <div className="flex justify-between text-sm pt-2 border-t border-rose-50 mt-2">
+              <span className="font-bold">Tổng thanh toán</span>
+              <span className="font-black text-accent-pink">{data.totalPrice.toLocaleString()}đ</span>
+            </div>
+          )}
         </div>
         <div className="mt-8 pt-4 border-t border-rose-50 text-center">
           <p className="text-[8px] font-bold text-rose-300 uppercase tracking-widest">Cảm ơn bạn đã tin tưởng SuSu Shop</p>

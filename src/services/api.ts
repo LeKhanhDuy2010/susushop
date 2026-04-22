@@ -1,6 +1,6 @@
 import { Booking, Equipment, Rental } from '../types';
 
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw_ys9rBkYY2o4kz9AfDwxEEnrfBbXJn9g_mdhOniYHyz4JDhcOOPMDQQvy1_Ihtu8CIg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz6XcRLy9BDEzMeG1GIJarliabUarZDDrTafDpVleGpVK7EUeoh6RuS2OkhLwl5iwuy6Q/exec";
 
 async function fetchGAS(params: Record<string, string>): Promise<any> {
   const query = new URLSearchParams(params).toString();
@@ -46,7 +46,14 @@ export const api = {
     return await fetchGAS({ 
       action: 'add', 
       sheet: 'rentals', 
-      values: JSON.stringify([rental.equipmentName, rental.userName, rental.phone, rental.startDate, rental.endDate]) 
+      values: JSON.stringify([
+        rental.equipmentName, 
+        rental.userName, 
+        rental.phone, 
+        rental.package, 
+        rental.totalPrice, 
+        rental.startDate
+      ]) 
     });
   },
 

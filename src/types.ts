@@ -11,7 +11,10 @@ export interface Booking {
 export interface Equipment {
   id: string;
   name: string;
-  price: number;
+  price4h: number;
+  price1d: number;
+  price2d: number;
+  price3d: number;
   desc: string;
   image: string;
 }
@@ -21,7 +24,8 @@ export interface Rental {
   equipmentName: string;
   userName: string;
   phone: string;
+  package: string;
+  totalPrice: number;
   startDate: string;
-  endDate: string;
   status: string;
 }
