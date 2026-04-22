@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, sans-serif;
+  
+  --color-bento-bg: #FFF5F7;
+  --color-bento-card: #FFFFFF;
+  --color-bento-border: #FCE7F3;
+  --color-primary-text: #831843;
+  --color-accent-pink: #F472B6;
+  --color-soft-pink: #FDF2F8;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-bento-bg text-primary-text antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .bento-card {
+    @apply bg-white border border-bento-border rounded-[24px] shadow-[0_4px_6px_-1px_rgba(251,113,133,0.05)] transition-all duration-300;
+  }
+  
+  .bento-card:hover {
+    @apply shadow-[0_10px_15px_-3px_rgba(251,113,133,0.1)] -translate-y-0.5;
+  }
+}
