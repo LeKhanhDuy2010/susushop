@@ -11,11 +11,26 @@ export default function ReceiptCard({ data, onClose }: ReceiptCardProps) {
 
   const takeScreenshot = () => {
     if (receiptRef.current) {
-      html2canvas(receiptRef.current).then((canvas) => {
+      const btn = document.activeElement as HTMLButtonElement;
+      if (btn) btn.disabled = true;
+      
+      html2canvas(receiptRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false
+      }).then((canvas) => {
         const link = document.createElement('a');
-        link.download = `susu-shop-booking-${new Date().getTime()}.png`;
-        link.href = canvas.toDataURL();
+        link.download = `susu-shop-receipt-${new Date().getTime()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+      }).catch(err => {
+        console.error('Lỗi khi lưu ảnh:', err);
+        alert('Không thể lưu ảnh. Vui lòng thử chụp màn hình thủ công.');
+      }).finally(() => {
+        if (btn) btn.disabled = false;
       });
     }
   };
