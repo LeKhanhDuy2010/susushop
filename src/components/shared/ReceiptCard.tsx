@@ -66,10 +66,12 @@ export default function ReceiptCard({ data, onClose }: ReceiptCardProps) {
               {data.date ? `${data.date} ${data.time ? `| ${data.time}` : ''}` : `${data.startDate} → ${data.endDate}`}
             </span>
           </div>
-          {data.totalPrice && (
+          {(data.totalPrice !== undefined || data.price !== undefined) && (
             <div className="flex justify-between text-sm pt-2 border-t border-rose-50 mt-2">
               <span className="font-bold">Tổng thanh toán</span>
-              <span className="font-black text-accent-pink">{data.totalPrice.toLocaleString()}đ</span>
+              <span className="font-black text-accent-pink">
+                {(data.totalPrice ?? data.price).toLocaleString()}đ
+              </span>
             </div>
           )}
         </div>
@@ -94,3 +96,4 @@ export default function ReceiptCard({ data, onClose }: ReceiptCardProps) {
     </div>
   );
 }
+ 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { api } from '../services/api';
@@ -6,9 +6,41 @@ import ReceiptCard from '../components/shared/ReceiptCard';
 
 export default function Booking() {
   const today = new Date().toISOString().split('T')[0];
-  const [formData, setFormData] = useState({ name: '', phone: '', service: 'Gói cá nhân', date: today, time: '08:00' });
+  const [formData, setFormData] = useState({ name: '', phone: '', service: '', price: 0, date: today, time: '08:00', address: '' });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [packages, setPackages] = useState<any[]>([]);
+  const [loadingPackages, setLoadingPackages] = useState(true);
+
+  useEffect(() => {
+    const loadPackages = async () => {
+      try {
+        const data = await api.getPackages();
+        setPackages(data);
+        if (data.length > 0) {
+          setFormData(prev => ({ 
+            ...prev, 
+            service: data[0]['name'], 
+            price: data[0]['price'] || 0 
+          }));
+        }
+      } catch (err) {
+        console.error('Lỗi load gói dịch vụ:', err);
+      } finally {
+        setLoadingPackages(false);
+      }
+    };
+    loadPackages();
+  }, []);
+
+  const handleServiceChange = (serviceName: string) => {
+    const pkg = packages.find(p => p['name'] === serviceName);
+    setFormData({
+      ...formData,
+      service: serviceName,
+      price: pkg ? pkg['price'] : 0
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,17 +101,28 @@ export default function Booking() {
 
               <div>
                 <label className="block text-[10px] font-black text-rose-300 uppercase tracking-widest mb-1.5 ml-1">Dịch vụ</label>
-                <select 
-                  className="w-full px-5 py-3 rounded-2xl bg-soft-pink/50 border border-rose-100 outline-none focus:border-accent-pink focus:bg-white transition-all font-bold text-primary-text appearance-none" 
-                  value={formData.service} 
-                  onChange={e => setFormData({...formData, service: e.target.value})}
-                >
-                  <option>Gói cá nhân</option>
-                  <option>Gói couple</option>
-                  <option>Gói studio</option>
-                  <option>Gói ngoại cảnh</option>
-                  <option>Gói sự kiện</option>
-                </select>
+                <div className="relative">
+                  <select 
+                    required
+                    className="w-full px-5 py-3 rounded-2xl bg-soft-pink/50 border border-rose-100 outline-none focus:border-accent-pink focus:bg-white transition-all font-bold text-primary-text appearance-none" 
+                    value={formData.service} 
+                    onChange={e => handleServiceChange(e.target.value)}
+                    disabled={loadingPackages}
+                  >
+                    {loadingPackages ? (
+                      <option>Đang tải...</option>
+                    ) : (
+                      packages.map((pkg, idx) => (
+                        <option key={idx} value={pkg['name']}>
+                          {pkg['name']} ({Number(pkg['price']).toLocaleString()}đ)
+                        </option>
+                      ))
+                    )}
+                  </select>
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <div className="w-2 h-2 border-r-2 border-b-2 border-rose-300 rotate-45" />
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -104,7 +147,16 @@ export default function Booking() {
                   />
                 </div>
               </div>
-
+              <div>
+                <label className="block text-[10px] font-black text-rose-300 uppercase tracking-widest mb-1.5 ml-1">Địa chỉ chụp</label>
+                <input 
+                  required 
+                  className="w-full px-5 py-3 rounded-2xl bg-soft-pink/50 border border-rose-100 outline-none focus:border-accent-pink focus:bg-white transition-all font-bold text-primary-text" 
+                  placeholder="Cà Mau" 
+                  value={formData.address} 
+                  onChange={e => setFormData({...formData, address: e.target.value})} 
+                />
+              </div>
               <button 
                 disabled={submitting} 
                 className="w-full py-4 bg-accent-pink text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-rose-200 mt-4 disabled:opacity-50 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"

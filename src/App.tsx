@@ -12,7 +12,7 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/equipment" element={<Equipment />} />
@@ -24,10 +24,10 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col p-4 md:p-6 space-y-8 max-w-screen-2xl mx-auto">
+      <div className="min-h-[100dvh] flex flex-col p-4 md:p-6 max-w-screen-2xl mx-auto overflow-x-hidden">
         <Navbar />
         
-        <main className="flex-grow">
+        <main className="flex-grow py-8">
           <AnimatedRoutes />
         </main>
         
